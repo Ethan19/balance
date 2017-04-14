@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['middleware' => ['api.auth.verify']], function () {
+    Route::get("test","TestController@Test");//测试
+    // Route::get("addincome","App\Http\Controllers\Api\MemberController@addIncome");//
+    Route::any("addincome","Api\MemberController@addIncome");//
+    // Route::get("addincome",function(){
+    // 	echo 2333333;
+    // });
+});
