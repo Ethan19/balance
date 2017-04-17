@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.24 (32 bit)
 MySQL - 5.5.47-MariaDB : Database - ethan
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 

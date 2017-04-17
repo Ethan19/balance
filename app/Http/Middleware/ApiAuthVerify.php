@@ -4,18 +4,20 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Monolog\Logger;
-use Monolog\Handle\StreamHandler;
+use Monolog\Handler\StreamHandler;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 
 class ApiAuthVerify
 {
-    // private $log;
+    private $infolog;
 
-    public function __destruct(){
-        // $this->log = new Logger();
-        // $this->log->pushHandler(new StreamHandler(""),Logger::WARNING);
+    public function __construct(){
+
+        $logpath = storage_path("middlelog/".date("Y-m-d")."info.log");
+        $this->infolog = new Logger("info");
+        $this->infolog->pushHandler(new StreamHandler($logpath,Logger::INFO));
     }
     /**
      * Handle an incoming request.
@@ -26,8 +28,15 @@ class ApiAuthVerify
      */
     public function handle($request, Closure $next)
     {
-        $data = get_defined_constants();
-        dump($data);
+        $uri = $request->path();//当前请求路劲，不包含header
+        $header = $request->headers->all();
+        $this->infolog->addInfo("receive date from ".$uri,$header);//写日志
+        // info("receive date from ".$uri,$header);
+        // echo _METHOD_;die;
+        // $data = get_defined_constants();
+
+        // $this->infolog()->addRecord("receive data",array());
+        // dump($data);
         // foreach ($data as $key => $value) {
         //     echo $value."\n";
         // }
