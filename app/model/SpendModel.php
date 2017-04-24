@@ -4,19 +4,19 @@ namespace App\model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IncomeModel extends Model
+class SpendModel extends Model
 {
     //
-	protected $table = 'income';
-	protected $primaryKey = "income_id";
-
+	protected $table = 'spend';
+	protected $primaryKey = "spend_id";
+    protected $fillable = array('member_id','operator_type','channel_id','operator_id','change_balance','before_balance','after_balance','active_member','type','relation_id');
     /**
      * [addIncome 插入新余额收入]
      * @author Ethan
      * @date   2017-04-21
      * @param  [type]     $data [description]
      */
-    public function addIncome($data){
+    public function addSpend($data){
     	$this->member_id = $data['member_id'];
     	$this->operator_type = $data['operator_type'];
     	$this->channel_id = $data['channel_id'];
@@ -24,16 +24,13 @@ class IncomeModel extends Model
     	$this->change_balance = $data['change_balance'];
     	$this->before_balance = $data['before_balance'];
     	$this->after_balance = $data['after_balance'];
-    	$this->left_balance = $data['left_balance'];
     	$this->active_member = $data['active_member'];
         $this->type = $data['type'];
     	$this->relation_id = $data['relation_id'];
     	$result = $this->save();
     	if($result){
     		return true;
-    	}else{
-            return false;
-        }
+    	}
     }
     /**
      * [postArrIncome 余额收入传递数据]
@@ -42,7 +39,7 @@ class IncomeModel extends Model
      * @param  [type]     $request [description]
      * @return [type]              [description]
      */
-    public function postArrIncome($request,$errorlog){
+    public function postArrSpend($request,$errorlog){
         $header = $request->headers->all();
         $param = true;
 
@@ -81,6 +78,7 @@ class IncomeModel extends Model
             $param = false;
         }
 
+
         if(isset($header['active-member'])){
             $arr['active_member'] = $header['active-member'][0];
         }else{
@@ -107,5 +105,4 @@ class IncomeModel extends Model
         }
         return $arr;
     }
-
 }

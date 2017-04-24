@@ -219,3 +219,12 @@ CREATE TABLE `balance_spend` (
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+ALTER TABLE `ethan`.`balance_spend` DROP COLUMN `left_value`; 
+
+ALTER TABLE `ethan`.`balance_spend` CHANGE `cteated_at` `created_at` DATETIME NOT NULL COMMENT '操作时间，入库时间'; 
+
+ALTER TABLE `ethan`.`balance_rollback` DROP COLUMN `left_value`; 
+
+ALTER TABLE `ethan`.`balance_rollback` CHANGE `cteated_at` `created_at` DATETIME NOT NULL COMMENT '操作时间，入库时间'; 

@@ -19,7 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['api.auth.verify']], function () {
     Route::get("test","TestController@Test");//测试
     // Route::get("addincome","App\Http\Controllers\Api\MemberController@addIncome");//
-    Route::any("addincome","Api\MemberController@addIncome");//
+    Route::post("addincome","Api\IncomeController@addIncome");//
+    Route::post("addspend","Api\SpendController@addspend");//
+    Route::post("addrollbackbyspendid","Api\RollbackController@addRollbackBySpendId");//
     // Route::get("addincome",function(){
     // 	echo 2333333;
     // });
