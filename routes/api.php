@@ -22,6 +22,7 @@ Route::group(['middleware' => ['api.auth.verify']], function () {
     Route::post("addincome","Api\IncomeController@addIncome");//
     Route::post("addspend","Api\SpendController@addspend");//
     Route::post("addrollbackbyspendid","Api\RollbackController@addRollbackBySpendId");//
+    Route::post("addrecovery","Api\RecoveryController@addRecovery");//
     // Route::get("addincome",function(){
     // 	echo 2333333;
     // });
