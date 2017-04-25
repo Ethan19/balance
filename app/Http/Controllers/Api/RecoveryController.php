@@ -51,12 +51,12 @@ class RecoveryController extends BaseController
             }elseif($balance<$incomeModel['left_balance']){
 
             	$reduceBalance = $balance;
-                $incomeModel->left_balance = $incomeModel['left_balance']-$balance;
+                $incomeModel->left_balance = $incomeModel->left_balance-$balance;
                 $balance = 0;
             }
             $arr[] = array("income_id"=>$incomeModel['income_id'],"change_balance"=>$reduceBalance);
             $incomeModel->before_balance = $memberModel->balance;
-            $incomeModel->after_balance = $memberModel->balance+$incomeModel['left_balance'];
+            $incomeModel->after_balance = $memberModel->balance-$reduceBalance;
 
             if(!$incomeModel->save()){
                 DB::rollBack();
