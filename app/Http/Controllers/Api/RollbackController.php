@@ -82,7 +82,10 @@ class RollbackController extends BaseController
     		$memberModel->balance += $val->rollback_balance;
     		$memberModel->rollbackbalance += $val->rollback_balance;
             //更改用户数据
-            if(!$memberModel->save()){
+            $mData = $data;
+            unset($mData['spend_id']);
+            $mData['change_balance'] = $val->rollback_balance;
+            if(!$memberModel->save(array($mData,$incomeModel->before_balance,$incomeModel->after_balance))){
                 DB::rollback();
                 return error::sendJsonFailMsg(error::ERROR_MSG_UPDATE_MEMBER_FAIL,error::ERROR_CODE_UPDATE_MEMBER_FAIL);
             }
@@ -170,9 +173,13 @@ class RollbackController extends BaseController
                 DB::rollback();
                 return error::sendJsonFailMsg(error::ERROR_MSG_UPDATE_INCOME_FAIL,error::ERROR_CODE_UPDATE_INCOME_FAIL);
             }
+            //
+            $mData = $data;
+            unset($mData['spend_id']);
+            $mData['change_balance'] = $nowRollbackBalance;
             $memberModel->balance += $nowRollbackBalance;
             $memberModel->rollbackbalance += $nowRollbackBalance;
-            if(!$memberModel->save()){
+            if(!$memberModel->save(array($mData,$incomeModel->before_balance,$incomeModel->after_balance))){
                 DB::rollback();
                 return error::sendJsonFailMsg(error::ERROR_MSG_UPDATE_MEMBER_FAIL,error::ERROR_CODE_UPDATE_MEMBER_FAIL);
             }

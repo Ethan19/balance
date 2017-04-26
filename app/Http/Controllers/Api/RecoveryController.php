@@ -67,7 +67,9 @@ class RecoveryController extends BaseController
             $memberModel->recoverybalance += $reduceBalance;
             // dump($memberModel);die;
             //修改用户信息的可用余额
-            if(!$memberModel->save()){
+            $mData = $data;
+            $mData['change_balance'] = $reduceBalance;
+            if(!$memberModel->save(array($mData,$incomeModel->before_balance,$incomeModel->after_balance))){
             	DB::rollBack();
             	return error::sendJsonFailMsg(error::ERROR_MSG_UPDATE_MEMBER_FAIL,error::ERROR_CODE_UPDATE_MEMBER_FAIL);
             }

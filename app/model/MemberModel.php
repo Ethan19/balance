@@ -1,10 +1,11 @@
 <?php
 namespace App\Model;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\model\IncomeModel;
 use App\model\SpendModel;
+use App\model\LogModel;
 use App\model\IncomeSpendModel;
 use App\Http\Controllers\ErrorCodeController as error;
 
@@ -28,6 +29,13 @@ class MemberModel extends Model
     	$obj->spendbalance +=$data['change_balance'];
     	$uRes = $obj->save();
     	return $uRes;
+    }
+
+    public function save(array $options=[]){
+        $options[0]['before_balance'] = $options[1];
+        $options[0]['after_balance'] = $options[2];
+        LogModel::addLog($options[0]);
+        return parent::save();
     }
     /**
      * [rollbackBalance incomebalance增加，rollbackbalance减少]

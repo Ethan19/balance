@@ -80,7 +80,7 @@ class SpendController extends BaseController
         //逐项扣减income表
         $balance = $data['change_balance'];
         while ( (int)$balance > 0) {
-            $incomeInfo = IncomeModel::whereRaw("operator_type=1 and left_balance>0 and member_id=".$data['member_id'])->orderBy('income_id','asc')->first()->toArray();
+            $incomeInfo = IncomeModel::whereRaw("operator_type=1 and left_balance>0 and member_id=".$data['member_id'])->orderBy('income_id','asc')->first();
                 //增加balance_income_spend数据
                 $isData['income_id'] = $incomeInfo['income_id'];
                 $isData['spend_id'] = $spend_id;
@@ -124,8 +124,10 @@ class SpendController extends BaseController
                 $balance = 0;
             }
         }
-        //修改用户信息的可用余额
-        $uRes = $this->MemberModel->setMember($userInfo,$data);
+        //修改用户信息的可用余额\
+        $userInfo->balance = $userInfo->balance-$data['change_balance'];
+        $userInfo->spendbalance += $data['change_balance'];
+        $uRes = $userInfo->save(array($data,$userInfo->balance+$data['change_balance'],$userInfo->balance));
         if(!$uRes){
             DB::rollBack();
             return error::sendJsonFailMsg(error::ERROR_MSG_UPDATE_MEMBER_FAIL,error::ERROR_CODE_UPDATE_MEMBER_FAIL);

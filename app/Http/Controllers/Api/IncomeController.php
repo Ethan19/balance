@@ -59,7 +59,7 @@ class IncomeController extends BaseController
         $model->balance += $data['change_balance'];
         //使用事务
         DB::beginTransaction();
-        $mRes = $model->save();
+        $mRes = $model->save(array($data,$data['before_balance'],$data['after_balance']));
         if(!$mRes){
             DB::rollBack();
             return false;
