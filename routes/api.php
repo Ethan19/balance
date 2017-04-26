@@ -20,6 +20,7 @@ Route::group(['middleware' => ['api.auth.verify']], function () {
     Route::get("test","TestController@Test");//测试
     // Route::get("addincome","App\Http\Controllers\Api\MemberController@addIncome");//
     Route::post("addincome","Api\IncomeController@addIncome");//
+    Route::get("index","Api\IncomeController@Index");//
     Route::post("addspend","Api\SpendController@addspend");//
     Route::post("addrollbackbyspendid","Api\RollbackController@addRollbackBySpendId");//
     Route::post("addrecovery","Api\RecoveryController@addRecovery");//

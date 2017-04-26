@@ -65,7 +65,6 @@ class RecoveryController extends BaseController
             }
             $memberModel->balance -= $reduceBalance;
             $memberModel->recoverybalance += $reduceBalance;
-            // dump($memberModel);die;
             //修改用户信息的可用余额
             $mData = $data;
             $mData['change_balance'] = $reduceBalance;
