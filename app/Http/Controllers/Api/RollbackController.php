@@ -13,9 +13,23 @@ use App\model\MemberModel;
 use App\model\RollbackModel;
 use App\model\RollbackIncomeModel;
 
+use App\Http\Support\RollbackSupport;
+
 
 class RollbackController extends BaseController
 {
+
+    /**
+     * [Index 回滚列表]
+     * @author Ethan
+     * @date   2017-04-27
+     * @param  Request    $request [description]
+     */
+    public function Index(Request $request){
+        $rollbackSupport = new RollbackSupport();
+        $result = $rollbackSupport->getRollbackList($request);
+        return $result;
+    }
  	/**
  	 * 回滚操作
  	 * @author Ethan

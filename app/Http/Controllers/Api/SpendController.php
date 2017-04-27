@@ -11,6 +11,8 @@ use App\model\IncomeModel;
 use App\model\SpendModel;
 use App\model\IncomeSpendModel;
 
+use App\Http\Support\SpendSupport;
+
 class SpendController extends BaseController
 {
 	public function __construct(Request $request){
@@ -20,6 +22,19 @@ class SpendController extends BaseController
 
 		
 	}
+    /**
+     * [Index 消费列表]
+     * @author Ethan
+     * @date   2017-04-27
+     * @param  Request    $request [description]
+     */
+    public function Index(Request $request){
+        $spendSupport = new SpendSupport();
+        $result = $spendSupport->getSpendList($request);
+        return $result;
+    }
+
+
     /**
      * [addSpend 增加支出]
      * @author Ethan
@@ -79,7 +94,7 @@ class SpendController extends BaseController
         $spend_id = $sRes->spend_id;
         //逐项扣减income表
         $balance = $data['change_balance'];
-        while ( (int)$balance > 0) {
+        while ( (float)$balance > 0) {
             $incomeInfo = IncomeModel::whereRaw("operator_type=1 and left_balance>0 and member_id=".$data['member_id'])->orderBy('income_id','asc')->first();
                 //增加balance_income_spend数据
                 $isData['income_id'] = $incomeInfo['income_id'];

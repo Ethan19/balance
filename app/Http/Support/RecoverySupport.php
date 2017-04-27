@@ -1,20 +1,20 @@
 <?php
 namespace App\Http\Support;
 
-use App\model\IncomeModel;
+use App\model\RecoveryModel;
 use App\model\MemberModel;
 /**
- * income辅助类
+ * Recovery辅助类
  */
-class IncomeSupport{
+class RecoverySupport{
 
 	public function __construct(){
 
 	}
-	public function getIncomeList($request){
+	public function getRecoveryList($request){
 		$page = isset($request->query()['page'])?$request->query()['page']:1; 
-		$model = new IncomeModel();
-		$pageModel = IncomeModel::with(array('member','channel','operation'))->paginate(10,array('*'),'page',$page);
+		$model = new RecoveryModel();
+		$pageModel = RecoveryModel::with(array('member','channel','operation'))->paginate(10,array('*'),'page',$page);
 		$res = $pageModel->toArray();
 		for ($i=0; $i <count($res['data']) ; $i++) { 
 			$res['data'][$i]['nickname'] = $res['data'][$i]['member']['nickname'];

@@ -11,8 +11,23 @@ use App\model\MemberModel;
 use App\model\RecoveryModel;
 use App\model\RecoveryIncomeModel;
 
+use App\Http\Support\RecoverySupport;
+
 class RecoveryController extends BaseController
 {
+
+    /**
+     * [Index 回收列表]
+     * @author Ethan
+     * @date   2017-04-27
+     * @param  Request    $request [description]
+     */
+    public function Index(Request $request){
+        $recoverySupport = new RecoverySupport();
+        $result = $recoverySupport->getRecoveryList($request);
+        return $result;
+    }
+
     //
     public function addRecovery(Request $request){
     	$data = $this->postArrRecovery($request);

@@ -24,7 +24,8 @@ class IncomeController extends BaseController
 	}
     public function Index(Request $request){
         $incomeSupport = new IncomeSupport();
-        $incomeSupport->getIncomeList();
+        $result = $incomeSupport->getIncomeList($request);
+        return $result;
     }
     /**
      * [addIncome 插入余额收入]
