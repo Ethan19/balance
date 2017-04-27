@@ -16,11 +16,8 @@ use App\Http\Support\IncomeSupport;
  */
 class IncomeController extends BaseController
 {
-	private $incomeModel;
 	public function __construct(Request $request){
 		parent::__construct($request);
-        $this->incomeModel = new IncomeModel();
-        $this->memberModel = new MemberModel();
 	}
     public function Index(Request $request){
         $incomeSupport = new IncomeSupport();
@@ -35,7 +32,6 @@ class IncomeController extends BaseController
      */
     public function addIncome(Request $request){
     	$data = $this->postArrIncome($request);
-
         if(!$data){
             return error::sendJsonFailMsg(error::ERROR_CODE_MSG_LESS_PARAMS,error::ERROR_CODE_CODE_LESS_PARAMS);
         }
@@ -57,7 +53,7 @@ class IncomeController extends BaseController
      */
     public function incomeBalance($data){       
         
-        $model = $this->memberModel->getMember($data['member_id']);
+        $model = MemberModel::find($data['member_id']);
         //组织income表数据
         $data['before_balance'] = $model->balance;//变动前的可以使用余额
         $data['after_balance'] = $model->balance+$data['change_balance'];//变动后的可以使用余额
@@ -72,7 +68,7 @@ class IncomeController extends BaseController
             DB::rollBack();
             return false;
         }
-        $iRes = $this->incomeModel->create($data);
+        $iRes = IncomeModel::create($data);
         if(!$iRes){
             DB::rollBack();
             return false;

@@ -11,7 +11,7 @@ class RollbackSupport{
 	public function __construct(){
 
 	}
-	public function getRecoveryList($request){
+	public function getRollbackList($request){
 		$page = isset($request->query()['page'])?$request->query()['page']:1; 
 		$model = new RollbackModel();
 		$pageModel = RollbackModel::with(array('member','channel','operation'))->paginate(10,array('*'),'page',$page);

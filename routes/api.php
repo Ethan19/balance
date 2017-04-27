@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/',function(){
+    echo "NOT FOUND!";die;
+});
 Route::group(['middleware' => ['api.auth.verify']], function () {
     Route::get("test","TestController@Test");//测试
     // Route::get("addincome","App\Http\Controllers\Api\MemberController@addIncome");//

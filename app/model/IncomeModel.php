@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class IncomeModel extends Model
 {
-    public function __construct(){
-        parent::__construct();
-    }
     //
 	protected $table = 'income';
 	protected $primaryKey = "income_id";

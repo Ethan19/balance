@@ -42,7 +42,7 @@ class SpendController extends BaseController
      * @param  Request    $request [description]
      */
     public function addSpend(Request $request){
-        $data = $this->spendModel->postArrSpend($request,$this->errorlog);
+        $data = $this->postArrSpend($request);
         if(!$data){
             return error::sendJsonFailMsg(error::ERROR_CODE_MSG_LESS_PARAMS,error::ERROR_CODE_CODE_LESS_PARAMS);
         }
@@ -78,7 +78,7 @@ class SpendController extends BaseController
      */
     private function getIncomeReduce($data){
         //获取用户现有的所有数据
-        $userInfo = $this->MemberModel->getMember($data['member_id']);
+        $userInfo = MemberModel::find($data['member_id']);
         // if(empty($userInfo['member_id'])){
         //  return 1;//用户不存在
         // }
@@ -149,5 +149,78 @@ class SpendController extends BaseController
         }
         DB::commit();
         return error::sendJsonSuccessMsg(error::SUCCESS_MSG_OK,error::SUCCESS_CODE_OK);
+    }
+    /**
+     * [postArrIncome 余额收入传递数据]
+     * @author Ethan
+     * @date   2017-04-21
+     * @param  [type]     $request [description]
+     * @return [type]              [description]
+     */
+    public function postArrSpend($request){
+        $header = $request->headers->all();
+        $param = true;
+
+        if(isset($header['member-id'])){
+            $arr['member_id'] = $header['member-id'][0];
+        }else{
+            $this->errorlog->addError("less member-id from ".__METHOD__);//缺少member_id
+            $param = false;
+        }
+
+        if(isset($header['operator-type'])){
+            $arr['operator_type'] = $header['operator-type'][0];
+        }else{
+            $this->errorlog->addError("less operator-type from ".__METHOD__);//operator-type
+             $param = false;
+        }
+
+        if(isset($header['channel-id'])){
+            $arr['channel_id'] = $header['channel-id'][0];
+        }else{
+            $this->errorlog->addError("less channel-id from ".__METHOD__);
+            $param = false;
+        }
+
+        if(isset($header['operator-id'])){
+            $arr['operator_id'] = $header['operator-id'][0];
+        }else{
+            $this->errorlog->addError("less operator-id from ".__METHOD__);
+            $param = false;
+        }
+
+        if(isset($header['change-balance'])){
+            $arr['change_balance'] = $header['change-balance'][0];
+        }else{
+            $this->errorlog->addError("less change-balance from ".__METHOD__);
+            $param = false;
+        }
+
+
+        if(isset($header['active-member'])){
+            $arr['active_member'] = $header['active-member'][0];
+        }else{
+            $this->errorlog->addError("less left-balance from ".__METHOD__);
+            $param = false;
+        }
+
+        if(isset($header['type'])){
+            $arr['type'] = $header['type'][0];
+        }else{
+            $this->errorlog->addError("less type from ".__METHOD__);
+            $param = false;
+        }
+
+        if(isset($header['relation-id'])){
+            $arr['relation_id'] = $header['relation-id'][0];
+        }else{
+            $this->errorlog->addError("less relation-id from ".__METHOD__);
+            $param = false;
+        }
+        if(!$param){
+            unset($arr);
+            return false;
+        }
+        return $arr;
     }
 }

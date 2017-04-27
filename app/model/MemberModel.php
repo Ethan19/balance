@@ -13,23 +13,6 @@ class MemberModel extends Model
 {
 	protected $table = 'member';
 	protected $primaryKey = "member_id";
-	private $incomeModel;
-	public function __construct(){
-		$this->incomeModel = new IncomeModel();
-	}
-    
-
-    public function getMember($member_id){
-    	$obj = MemberModel::find($member_id);
-    	return $obj;
-    }
-
-    public function setMember($obj,$data){
-    	$obj->balance =$obj->balance - $data['change_balance'];
-    	$obj->spendbalance +=$data['change_balance'];
-    	$uRes = $obj->save();
-    	return $uRes;
-    }
 
     public function save(array $options=[]){
         $options[0]['before_balance'] = $options[1];
