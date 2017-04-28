@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/',function(){
-    echo "NOT FOUND!";die;
+    echo "NOT FOUND!";
 });
 Route::group(['middleware' => ['api.auth.verify']], function () {
     Route::get("test","TestController@Test");//测试
@@ -31,6 +31,7 @@ Route::group(['middleware' => ['api.auth.verify']], function () {
     Route::get("spendlist","Api\SpendController@Index");//
     Route::get("rollbacklist","Api\RollbackController@Index");//
     Route::get("recoverylist","Api\RecoveryController@Index");//
+    Route::get("loglist","Api\LogController@Index");//
     // Route::get("addincome",function(){
     // 	echo 2333333;
     // });

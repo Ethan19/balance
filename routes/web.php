@@ -12,6 +12,6 @@
 */
 
 Route::get('/', function () {
-	echo "NOT FOUND！";die;
+	echo "NOT FOUND！";
     // return view('welcome');
 });
